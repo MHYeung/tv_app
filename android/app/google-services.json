@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "959440486789",
+    "project_id": "tv-stream-a5f74",
+    "storage_bucket": "tv-stream-a5f74.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:959440486789:android:4a406b0633d3c9e76144ec",
+        "android_client_info": {
+          "package_name": "com.nngnstudio.tvapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "959440486789-pku435nr3u60s1l1avlbah3mvjn7oif7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBN76EIYnFumrUyyn5qAhDb0vS8dgPYVls"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "959440486789-pku435nr3u60s1l1avlbah3mvjn7oif7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
