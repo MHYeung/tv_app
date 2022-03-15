@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:launch_review/launch_review.dart';
-import 'package:tvapp/AdManager.dart';
-import 'package:tvapp/bannerAd.dart';
+import 'package:tvapp/const/ad_strings.dart';
+import 'package:tvapp/widgets/banner_ad_widget.dart';
+import 'package:tvapp/const/playList.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 
@@ -44,67 +44,13 @@ class _HomePageState extends State<HomePage> {
 
   bool _isPlayerReady = false;
 
-  final List<String> _ids = [
-    'DHsJ10jOFAM',
-    'TCnaIE_SAtM',
-    'R2iMq5LKXco',
-    'lu_BJKxqGnk',
-    'ABn_ccXn_jc',
-    'XxJKnDLYZz4',
-    'EmuMuVyAjh4',
-    'xL0ch83RAK8',
-    'tJ-Y20luk04',
-    'rGPXugD0ekU',
-    'oV_i3Hsl_zg',
-    'GlGXdDBGZ7k',
-    'KDRwIRKP5tY',
-    'vAMp4Ff2mrw',
-    'wSKE3A40SIk',
-    '_pZQ1Lk0xMA',
-    'xbNWkUyxQGM',
-    'LEOat38Iuao',
-  ];
+  final List<String> _ids = Playlist.id;
 
-  final List<String> _titles = [
-    '寰宇新聞台',
-    '中視新聞台',
-    'EBC 東森新聞',
-    'CTI中天新聞',
-    'EBC 東森財經新聞',
-    '民視新聞',
-    'TVBS 56頻道',
-    '台視新聞台',
-    '華視戲劇頻道-台灣靈異事件',
-    '網路流行音樂電台',
-    '大愛一臺',
-    '淨空老法師直播台',
-    'TVBS新聞 55 頻道',
-    '誠心電視台',
-    '新唐人LIVE',
-    'momo購物一台',
-    'momo購物二台',
-    '美好購物2台',
-  ];
-
-  InterstitialAd? _interstitialAd;
-
-  void _createInterstitialAd() {
-    _interstitialAd = InterstitialAd(
-        adUnitId: AdManager.interstitialAdUnitID,
-        request: AdRequest(), listener: AdListener(),
-    );
-    _interstitialAd!.load();
-  }
-
-  void _showInterstitialAd() {
-    _interstitialAd!.show();
-    _interstitialAd = null;
-  }
+  final List<String> _titles = Playlist.titles;
 
   @override
   void initState() {
     super.initState();
-    _createInterstitialAd();
     _controller = YoutubePlayerController(
       initialVideoId: _ids.first,
       flags: const YoutubePlayerFlags(
@@ -140,7 +86,6 @@ class _HomePageState extends State<HomePage> {
   @override
   void dispose() {
     _controller.dispose();
-    _interstitialAd?.dispose();
     super.dispose();
   }
 
@@ -232,10 +177,8 @@ class _HomePageState extends State<HomePage> {
                         avatar: CircleAvatar(
                             child: Text('${_titles.indexOf(e) + 1}')),
                         onPressed: () {
-                          _showInterstitialAd();
                           setState(() {
                             _controller.load(_ids[_titles.indexOf(e)]);
-                            _createInterstitialAd();
                           });
                         },
                         label: Text(e),
@@ -248,7 +191,7 @@ class _HomePageState extends State<HomePage> {
               ),
             Expanded(
               flex: 1,
-              child: HomePageAd(),
+              child: BannerAdWidget(bannerID: AdString.bannerAdUnitID,),
             ),
           ]),
         ),
