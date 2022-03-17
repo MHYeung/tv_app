@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 class BannerAdWidget extends StatefulWidget {
-  const BannerAdWidget({Key? key, required this.bannerID, this.adSize = AdSize.largeBanner}) : super(key: key);
+  const BannerAdWidget({Key? key, required this.bannerID, this.adSize = AdSize.banner}) : super(key: key);
 
   final String bannerID;
   final AdSize adSize;
