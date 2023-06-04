@@ -1,33 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:launch_review/launch_review.dart';
-import 'package:tvapp/const/ad_strings.dart';
-import 'package:tvapp/const/playList.dart';
-import 'package:tvapp/pages/tv/tv_binding.dart';
-import 'package:tvapp/pages/tv/tv_screen.dart';
-import 'package:tvapp/widgets/banner_ad_widget.dart';
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
-
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:tvapp/routes/router.dart';
+import 'package:tvapp/themes/custom_theme.dart';
+import 'package:tvapp/themes/theme_provider.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   MobileAds.instance.initialize();
-  runApp(MyApp());
+  runApp(ProviderScope(child: MyApp()));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerWidget {
   const MyApp({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return GetMaterialApp(
-      debugShowCheckedModeBanner: false,
-      initialBinding: TVBinding(),
-      home: TVScreen(),
-      theme: ThemeData.dark(),
-    );
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isDark = ref.watch(themeModeProvider);
+    final router = ref.watch(routerProvider);
+    return MaterialApp.router(
+        debugShowCheckedModeBanner: false,
+        routeInformationParser: router.routeInformationParser,
+        routerDelegate: router.routerDelegate,
+        routeInformationProvider: router.routeInformationProvider,
+        title: "台灣電視直播",
+        theme: isDark ? CustomTheme.darkTheme : CustomTheme.lightTheme);
   }
 }
-
-

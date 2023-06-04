@@ -1,10 +1,10 @@
 import 'package:flutter/foundation.dart';
-import 'package:get/get.dart';
+
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 import '../../const/ad_strings.dart';
 
-class AdManager extends GetxService {
+class AdManager {
   static String intId = AdString.interstitialAdUnitID;
   static String banId = AdString.bannerAdUnitID;
 
@@ -58,11 +58,11 @@ class AdManager extends GetxService {
     }
   }
 
-  static showIntAd(Function onTap){
+  static showIntAd(Function onTap) {
     _callIntAd(true, onTap);
   }
 
-  static showCountIntAd(Function onTap){
+  static showCountIntAd(Function onTap) {
     _clicked();
     _callIntAd(showCount, onTap);
   }
