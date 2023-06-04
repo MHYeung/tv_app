@@ -1,10 +1,15 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../const/ad_strings.dart';
 
-class AdManager {
+final intAdProvider = Provider((ref) => AdManager());
+
+class AdManager extends AutoDisposeAsyncNotifier<void>{
   static String intId = AdString.interstitialAdUnitID;
   static String banId = AdString.bannerAdUnitID;
 
@@ -13,10 +18,6 @@ class AdManager {
   static bool get showCount => count % 3 == 0 && count != 0;
 
   static InterstitialAd? _interstitialAd;
-
-  static init() async {
-    await _loadIntAd();
-  }
 
   static Future _loadIntAd() async {
     await InterstitialAd.load(
@@ -58,12 +59,17 @@ class AdManager {
     }
   }
 
-  static showIntAd(Function onTap) {
+  void showIntAd(Function onTap) {
     _callIntAd(true, onTap);
   }
 
-  static showCountIntAd(Function onTap) {
+  void showCountIntAd(Function onTap) {
     _clicked();
     _callIntAd(showCount, onTap);
+  }
+
+  @override
+  Future<FutureOr> build() async {
+    await _loadIntAd();
   }
 }

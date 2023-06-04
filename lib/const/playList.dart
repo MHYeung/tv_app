@@ -18,6 +18,9 @@ class Playlist {
     '_pZQ1Lk0xMA',
     'xbNWkUyxQGM',
     'LEOat38Iuao',
+    'oZdzzvxTfUY',
+    'dZp87qnWelE',
+    'z_fY1pj1VBw'
   ];
 
   static const List<String> titles = [
@@ -39,5 +42,8 @@ class Playlist {
     'momo購物一台',
     'momo購物二台',
     '美好購物2台',
+    '三立新聞 24小時直播',
+    'TaiwanPlus TV Livestream',
+    '【Taipei Live Cam】象山看台北 - 4K即時影像'
   ];
 }

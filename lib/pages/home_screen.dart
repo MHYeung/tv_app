@@ -20,6 +20,7 @@ class HomeScreen extends HookConsumerWidget {
     final isDark = ref.watch(themeModeProvider);
     final channelIndex = ref.watch(channelProvider);
     final controller = ref.watch(tvProvider);
+    final textTheme = Theme.of(context).textTheme;
     return YoutubePlayerBuilder(
         player: YoutubePlayer(
           controller: controller.tv,
@@ -43,8 +44,19 @@ class HomeScreen extends HookConsumerWidget {
             body: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Expanded(flex: 4, child: player),
-                  AutoSizeText(ref.watch(tvProvider).tv.metadata.title, maxLines: 3,style: TextStyle(fontWeight: FontWeight.bold),),
+                  Expanded(flex: 3, child: player),
+                  // Padding(
+                  //   padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+                  //   child: Consumer(
+                  //     builder: (BuildContext context, WidgetRef ref, Widget? widget) {
+                  //       return AutoSizeText(
+                  //         ref.watch(tvProvider).tv.metadata.title,
+                  //         maxLines: 3,
+                  //         style: textTheme.displayMedium,
+                  //       );
+                  //     }
+                  //   ),
+                  // ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
@@ -59,7 +71,7 @@ class HomeScreen extends HookConsumerWidget {
                           child: AutoSizeText(
                             '上一個頻道',
                             maxLines: 1,
-                            style: TextStyle(fontWeight: FontWeight.bold),
+                            style: textTheme.displaySmall,
                           ),
                         ),
                       ),
@@ -69,7 +81,7 @@ class HomeScreen extends HookConsumerWidget {
                           child: AutoSizeText(
                             '下一個頻道',
                             maxLines: 1,
-                            style: TextStyle(fontWeight: FontWeight.bold),
+                            style: textTheme.displaySmall,
                           ),
                           onPressed: () {
                             ref.read(channelProvider.notifier).nextChannel();
@@ -79,9 +91,12 @@ class HomeScreen extends HookConsumerWidget {
                     ],
                   ),
                   Divider(),
-                  AutoSizeText(
-                    '頻道列表',
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                    child: AutoSizeText(
+                      '頻道列表',
+                      style: textTheme.displayMedium,
+                    ),
                   ),
                   Expanded(
                       flex: 3,
@@ -97,10 +112,13 @@ class HomeScreen extends HookConsumerWidget {
                                         width: double.infinity,
                                         child: GestureDetector(
                                           onTap: () {
-                                            AdManager.showIntAd(() => ref
-                                                .read(channelProvider.notifier)
-                                                .switchChannel(Playlist.titles
-                                                    .indexOf(channel)));
+                                            ref.read(intAdProvider).showIntAd(
+                                                () => ref
+                                                    .read(channelProvider
+                                                        .notifier)
+                                                    .switchChannel(Playlist
+                                                        .titles
+                                                        .indexOf(channel)));
                                           },
                                           child: Card(
                                             child: Row(
@@ -108,24 +126,42 @@ class HomeScreen extends HookConsumerWidget {
                                                     MainAxisAlignment
                                                         .spaceBetween,
                                                 children: [
-                                                  CircleAvatar(
-                                                      backgroundColor:
-                                                          channelIndex ==
-                                                                  Playlist
-                                                                      .titles
-                                                                      .indexOf(
-                                                                          channel)
-                                                              ? Colors.orange
-                                                              : Colors
-                                                                  .brown[400],
+                                                  (channelIndex ==
+                                                          Playlist.titles
+                                                              .indexOf(channel))
+                                                      ? Container(
+                                                        padding: EdgeInsets.symmetric(horizontal:5.0, vertical: 2.0),
+                                                        decoration: BoxDecoration(
+                                                          color:  Colors.transparent,
+                                                          borderRadius: BorderRadius.circular(4.0)
+                                                        ),
+                                                        child: Row(
+                                                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                                            children: [
+                                                              Icon(Icons.live_tv_rounded, color: Colors.red,),
+                                                              SizedBox(width: 5.0,),
+                                                              AutoSizeText("現正觀看", style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),)
+                                                            ],
+                                                          ),
+                                                      )
+                                                      : CircleAvatar(
+                                                          backgroundColor:
+                                                              Colors.brown[400],
+                                                          child: AutoSizeText(
+                                                              "${Playlist.titles.indexOf(channel) + 1}")),
+                                                  Expanded(
+                                                    child: Center(
                                                       child: AutoSizeText(
-                                                          "${Playlist.titles.indexOf(channel) + 1}")),
-                                                  Text(channel, style: TextStyle(fontWeight: FontWeight.bold),),
+                                                        channel,
+                                                        overflow: TextOverflow.fade,
+                                                        style: textTheme.displayMedium,
+                                                      ),
+                                                    ),
+                                                  ),
                                                   IconButton(
                                                     icon: Icon(Icons.share),
                                                     onPressed: () =>
                                                         LaunchReview.launch(),
-                                                    
                                                   ),
                                                 ]),
                                           ),
